@@ -668,7 +668,7 @@ style="width: 100%;">Create Account</button>
  
     <!-- CHAT/MESSAGES PAGE (Grindr Style) --> 
     <div id="chat" class="page"> 
-        <button class="back-btn" onclick="goBack()">← Back</button> 
+        <button class="back-btn" onclick="goBack()">Back</button> 
         <div class="chat-layout"> 
             <!-- Sidebar / Inbox --> 
             <div class="chat-sidebar"> 
@@ -693,8 +693,7 @@ flex-direction: column;">
         </div> 
     </div> 
  
-    <div class="chatbot-fab" onclick="alert(&apos;AI Chatbot initialized! 
-Linked to: newthings334@gmail.com.&apos;)"> 
+    <div class="chatbot-fab" onclick="alert('AI Chatbot initialized! Linked to: newthings334@gmail.com.')">
         
 
 💬
@@ -711,18 +710,30 @@ Linked to: newthings334@gmail.com.&apos;)">
 2026 Noodixx. All rights reserved.</p> 
     </footer> 
  
-    <script> 
-        // --- NAVIGATION HISTORY LOGIC --- 
-        let historyStack = [&apos;home&apos;]; 
- 
-        function navigateTo(pageId, isBack = false) { 
-            document.querySelectorAll(&apos;.page&apos;).forEach(page => 
-page.classList.remove(&apos;active&apos;)); 
-            document.getElementById(pageId).classList.add(&apos;active&apos;); 
-            window.scrollTo({ top: 0, behavior: &apos;smooth&apos; }); 
- 
-            if (!isBack && historyStack[historyStack.length - 1] !== 
-pageId) { 
+    <script>
+        // --- NAVIGATION HISTORY LOGIC ---
+let historyStack = ['home'];
+
+function navigateTo(pageId, isBack = false) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => 
+        page.classList.remove('active')
+    );
+
+    // Show the target page
+    const targetPage = document.getElementById('pageId');
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // History Logic
+    if (!isBack && historyStack[historyStack.length - 1] !== pageId) {
+        historyStack.push(pageId);
+    }
+}
+        
                 historyStack.push(pageId); 
             } 
         } 
@@ -734,15 +745,15 @@ pageId) {
 1]; 
                 navigateTo(prevPage, true); 
             } else { 
-                navigateTo(&apos;home&apos;); 
+                navigateTo('home'); 
             } 
         } 
  
         // --- NAVBAR MENU ANIMATION --- 
 
         function toggleMenu() { 
-            const palette = document.getElementById(&apos;navPalette&apos;); 
-            palette.classList.toggle(&apos;open&apos;); 
+            const palette = document.getElementById('navPalette'); 
+            palette.classList.toggle('open'); 
         } 
  
         // --- PASSWORD VISIBILITY TOGGLE --- 
@@ -786,6 +797,7 @@ pageId) {
         const feed = document.getElementById('profile-feed');
         profiles.forEach(p => {
             feed.innerHTML += `
+            
                 <div class="profile-card">
                     <img src="${p.img}" alt="${p.name}" class="profile-img">
                     <div class="profile-info">
@@ -805,7 +817,7 @@ pageId) {
         function handleSignIn(e) { 
 
             e.preventDefault(); 
-            const err = document.getElementById(&apos;signin-error&apos;); 
+            const err = document.getElementById('signin-error'); 
             err.style.display = &apos;block&apos;; 
             err.innerText = "Username or Password wrong"; 
             // Shake animation class could be added here 
