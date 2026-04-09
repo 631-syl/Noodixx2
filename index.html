@@ -440,43 +440,39 @@ none; margin: 0 15px; font-weight: bold; }
 <body> 
 
  
-    <header> 
-        <nav> 
-            <div class="logo" 
-onclick="navigateTo('home')">NOODIXX</div> 
-            <button class="menu-btn" onclick="toggleMenu()">MENU 
-▾</button> 
-        </nav> 
-        <div class="nav-extended-palette" id="navPalette"> 
-            <a href="#" onclick="navigateTo('home'); toggleMenu(); return false;">Homepage</a>
-            <a href="#" onclick="navigateTo('signin'); toggleMenu(); return false;">Sign In</a>
-            <a href="#" onclick="navigateTo('register'); toggleMenu(); return false;">Create Account</a>
-            <a href="#" onclick="navigateTo('chat'); toggleMenu(); return false;">Messages</a>
-        </div> 
-    </header> 
+    <header>
+  <nav>
+    <!-- Moved onclick inside the tag and changed to a button/link for better accessibility -->
+    <div class="logo" onclick="navigateTo('home')" style="cursor: pointer;">NOODIXX</div>
+    
+    <button class="menu-btn" onclick="toggleMenu()">MENU</button>
+  </nav>
+
+  <div class="nav-extended-palette" id="navPalette">
+    <a href="#" onclick="navigateTo('home'); toggleMenu(); return false;">Homepage</a>
+    <a href="#" onclick="navigateTo('signin'); toggleMenu(); return false;">Sign In</a>
+    <a href="#" onclick="navigateTo('register'); toggleMenu(); return false;">Create Account</a>
+    <a href="#" onclick="navigateTo('chat'); toggleMenu(); return false;">Messages</a>
+  </div>
+    </header>
+    
  
     <!-- HOMEPAGE --> 
-    <div id="home" class="page active"> 
-        <div class="welcome-section"> 
-            <h1>Welcome to Noodixx</h1> 
-            <p style="font-size: 1.2rem; color: #555;">Where Real 
-Connections Happen.</p> 
-        </div> 
- 
-        <div class="tips-carousel" id="tips"> 
-            Read the profiles carefully to see who's right for you 
-        </div> 
- 
-        <!-- Admin Video Container (Empty by default, disappears) --> 
-        <div class="video-container" id="admin-video"> 
-            <!-- Example: <video src="promo.mp4" controls autoplay 
-muted loop></video> --> 
-        </div> 
- 
-        <div class="profiles-grid" id="profile-feed"> 
-            <!-- Profiles injected via JS --> 
-        </div> 
-    </div> 
+<!-- Main Container -->
+<div id="home" class="page active">
+    <div class="welcome-section">
+        <h1>Welcome to Noodixx</h1>
+        <p class="sub-headline">Where Real Connections Happen.</p>
+    </div>
+
+    <div class="tips-carousel" id="tips">
+        Read the profiles carefully to see who's right for you
+    </div>
+
+    <!-- The container where JS will "inject" the cards -->
+    <div class="profiles-grid" id="profile-feed"></div>
+</div>
+    
  
     <!-- SIGN IN PAGE --> 
     <div id="signin" class="page"> 
@@ -787,6 +783,7 @@ function navigateTo(pageId, isBack = false) {
         }, 4000);
         document.getElementById('tips').innerText = tips[0]; 
 
+        
         const profiles = [
             { name: "Aisha", age: 24, img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&auto=format&fit=crop", height: "165cm", type: "Athletic", looking: "Long-term relationship" },
             { name: "Kwame", age: 28, img: "https://images.unsplash.com/photo-1506803682981-6e718a9dd3ee?w=500&auto=format&fit=crop", height: "180cm", type: "Fit", looking: "Casual dating" },
@@ -796,25 +793,9 @@ function navigateTo(pageId, isBack = false) {
 
         const feed = document.getElementById('profile-feed');
         profiles.forEach(p => {
-            feed.innerHTML += `
-            
-                <div class="profile-card">
-                    <img src="${p.img}" alt="${p.name}" class="profile-img">
-                    <div class="profile-info">
-                        <h3>${p.name}, ${p.age}</h3>
-                        <div class="tags">
-                            <span class="tag">${p.height}</span>
-                            <span class="tag">${p.type}</span>
-                        </div>
-                        <p style="font-size: 0.9rem; color: #555;"><strong>Looking for:</strong> ${p.looking}</p>
-                        <div class="profile-action">
-                            <button class="btn" onclick="attemptMessage('${p.name}')">Message ${p.name}</button>
-                        </div>
-                    </div>
-                </div>
-
-        // --- SIGN IN LOGIC --- 
-        function handleSignIn(e) { 
+            feed.innerHTML += '
+                
+      function handleSignIn(e) { 
 
             e.preventDefault(); 
             const err = document.getElementById('signin-error'); 
@@ -828,12 +809,12 @@ function navigateTo(pageId, isBack = false) {
             const email = document.getElementById(&apos;rp-email&apos;).value; 
             if(!email) return alert(&apos;Enter email first&apos;); 
              
-            const btn = document.getElementById(&apos;btn-send-otp&apos;); 
-            const msg = document.getElementById(&apos;reset-msg&apos;); 
-            const step2 = document.getElementById(&apos;reset-step-2&apos;); 
+            const btn = document.getElementById('btn-send-otp'); 
+            const msg = document.getElementById('reset-msg'); 
+            const step2 = document.getElementById('reset-step-2'); 
              
-            msg.style.display = &apos;block&apos;; 
-            step2.style.display = &apos;block&apos;; 
+            msg.style.display = 'block'; 
+            step2.style.display = 'block'; 
              
             btn.disabled = true; 
             btn.innerText = "Wait 30s..."; 
@@ -846,52 +827,52 @@ function navigateTo(pageId, isBack = false) {
                     clearInterval(timer); 
                     btn.disabled = false; 
                     btn.innerText = "Resend OTP"; 
-                    msg.style.display = &apos;none&apos;; 
+                    msg.style.display = 'none'; 
                 } 
             }, 1000); 
         } 
  
         function verifyOTP() { 
-            const otp = document.getElementById(&apos;rp-otp&apos;).value; 
-            const err = document.getElementById(&apos;reset-error&apos;); 
+            const otp = document.getElementById('rp-otp').value; 
+            const err = document.getElementById('reset-error'); 
             if (otp === "123456") { // Mock correct OTP 
-                err.style.display = &apos;none&apos;; 
-                document.getElementById(&apos;reset-step-2&apos;).style.display 
-= &apos;none&apos;; 
-                document.getElementById(&apos;reset-step-1&apos;).style.display 
-= &apos;none&apos;; 
-                document.getElementById(&apos;reset-step-3&apos;).style.display 
-= &apos;block&apos;; 
+                err.style.display = 'none'; 
+                document.getElementById('reset-step-2').style.display 
+= 'none'; 
+                document.getElementById('reset-step-1').style.display 
+= 'none'; 
+                document.getElementById('reset-step-3').style.display 
+= 'block'; 
             } else { 
-                err.style.display = &apos;block&apos;; 
+                err.style.display = 'block'; 
 
             } 
         } 
  
         function resetRPState() { 
-            document.getElementById(&apos;reset-step-2&apos;).style.display = 
-&apos;none&apos;; 
-            document.getElementById(&apos;reset-error&apos;).style.display = 
-&apos;none&apos;; 
+            document.getElementById('reset-step-2').style.display = 
+'none'; 
+            document.getElementById('reset-error').style.display = 
+'none'; 
         } 
  
         function saveNewPassword() { 
             alert("Password replaced successfully!"); 
-            navigateTo(&apos;signin&apos;); 
+            navigateTo('signin'); 
         } 
  
         // --- REGISTRATION LOGIC --- 
         // Populate Height Dropdown 
-        const heightSelect = document.getElementById(&apos;reg-height&apos;); 
+        const heightSelect = document.getElementById('reg-height'); 
         heightSelect.innerHTML = &apos;<option value="" disabled 
-selected>Select Height</option>&apos;; 
+selected>Select Height</option>; 
         for(let i = 50; i <= 300; i++) { 
             heightSelect.innerHTML += `<option value="${i}">${i} 
 cm</option>`; 
         } 
  
         function validateRegPassword() { 
-            const pass = document.getElementById(&apos;reg-password&apos;); 
+            const pass = document.getElementById('reg-password'); 
             const val = pass.value; 
              
             const hasUpper = /[A-Z]/.test(val); 
@@ -905,29 +886,28 @@ cm</option>`;
 && isLong; 
  
             if (val.length === 0) { 
-                pass.classList.remove(&apos;valid-field&apos;, &apos;invalid-field&apos;); 
+                pass.classList.remove('valid-field','invalid-field'); 
                 return false; 
             } 
  
             if (isValid) { 
-                pass.classList.add(&apos;valid-field&apos;); 
-                pass.classList.remove(&apos;invalid-field&apos;); 
+                pass.classList.add('valid-field'); 
+                pass.classList.remove('invalid-field'); 
                 return true; 
 
             } else { 
-                pass.classList.add(&apos;invalid-field&apos;); 
-                pass.classList.remove(&apos;valid-field&apos;); 
+                pass.classList.add('invalid-field'); 
+                pass.classList.remove('valid-field'); 
                 return false; 
             } 
         } 
  
         function generatePassword() { 
-            const name = document.getElementById(&apos;reg-name&apos;).value; 
-            const email = document.getElementById(&apos;reg-email&apos;).value; 
+            const name = document.getElementById('reg-name').value; 
+            const email = document.getElementById('reg-email').value; 
              
             if (!name || !email) { 
-                alert("Please fill out Name and Email before 
-generating a password."); 
+                alert("Please fill out Name and Email before generating a password."); 
                 return; 
             } 
  
@@ -1007,7 +987,7 @@ color: var(--gray);">
 </span> 
                     <input type="text" id="chat-input" 
 placeholder="Say something..." onkeypress="if(event.key === &apos;Enter&apos;) 
-sendMessage()"> 
+sendMessage()"> the best way of getting a bit more income and willing for a walk to see the pictures and videos on my way home from work so will see if we could get the train to London to get a taxi to see if you want me and I 
                     <button class="send-btn" 
 onclick="sendMessage()">➤</button> 
                 </div> 
